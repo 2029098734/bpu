@@ -79,7 +79,7 @@ typedef struct
 
 
 
-
+void sensor_tamper_able(void);
 void bpk_write(uint32_t number, uint32_t message);
 uint32_t bpk_read(uint32_t number);
 void sensor_diable(void);

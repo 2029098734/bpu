@@ -1,4 +1,5 @@
 #include"bpu.h"
+#include"uart.h"
 
 void bpk_write(uint32_t number, uint32_t message)
 {
@@ -8,14 +9,19 @@ void bpk_write(uint32_t number, uint32_t message)
 	BPU->BPK_LWA |= 0x3;            //使能写锁定
 }
 
-uint32_t bpk_read(uint32_t number)
+void bpk_read(uint32_t number, UART_TypeDef* UART)
 {
-	uint32_t message = 0;
 	while(!(BPU->BPK_RDY & 0x1)){}  //等待复位结束
 	BPU->BPK_LRA &= 0xFFFFFFFC;     //清除读锁定
-	message = BPU->KEY[number];     
+	UART->OFFSET_0.THR = BPU->KEY[number] & 0xFF;
+	while(((UART->USR) & 0x1)){}     
+	UART->OFFSET_0.THR = (BPU->KEY[number] >> 8) & 0xFF;
+	while(((UART->USR) & 0x1)){}     
+	UART->OFFSET_0.THR = (BPU->KEY[number] >> 16) & 0xFF;
+	while(((UART->USR) & 0x1)){}     
+	UART->OFFSET_0.THR = (BPU->KEY[number] >> 24) & 0xFF;
+	while(((UART->USR) & 0x1)){}
 	BPU->BPK_LRA |= 0x3;            //使能读锁定
-	return message;
 }
 
 void sensor_diable(void)

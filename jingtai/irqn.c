@@ -1,6 +1,6 @@
 #include"irqn.h"
 
-__attribute__((weak)) void Reset_Handler(void){}
+//__attribute__((weak)) void Reset_Handler(void){}
 __attribute__((weak)) void NMI_Handler(void){}
 __attribute__((weak)) void HardFault_Handler(void){}
 __attribute__((weak)) void MemManage_Handler(void){}

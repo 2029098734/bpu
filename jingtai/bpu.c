@@ -26,13 +26,23 @@ void sensor_diable(void)
 	BPU->SEN_TH_EN = 0x55;
 	BPU->SEN_TL_EN = 0x55;
 	BPU->SEN_XTAL32_EN = 0x55;
-	BPU->SEN_MESH_EN = 0x55;
+	BPU->SEN_MESH_EN = 0x80000055;
 	BPU->SEN_VOLGLTCH_EN = 0x55;
     BPU->SEN_EXTS_START = (BPU->SEN_EXTS_START & 0xFFFFFF00) | 0x55;    //关闭外部所有传感器
 	while(BPU->SEN_EXTS_START & 0x800000000){}
 	BPU->SEN_STATE = 0x0;            //exts_intp,对该寄存器进行写操作会清除所有中断
 }
 
+void sensor_tamper_able(void)
+{
+	for(int i = 0; i < 8; i++)
+	{
+		while(BPU->SEN_EXTS_START & 0x800000000){}
+		BPU->SEN_EXT_EN[i] = 0xAA;
+	}
+	while(BPU->SEN_EXTS_START & 0x800000000){}
+	BPU->SEN_EXT_TYPE = 0x000FF000;   //全部上拉电阻，设为静态传感器
+}
 
 
 

@@ -2,6 +2,7 @@
 #define __BPK_H
 
 #include "sys.h"
+#include "uart.h"
 
 #define BPU_BASE  		 	   (0x40030000UL)
 
@@ -81,7 +82,7 @@ typedef struct
 
 
 void bpk_write(uint32_t number, uint32_t message);
-uint32_t bpk_read(uint32_t number);
+void bpk_read(uint32_t number, UART_TypeDef* UART);
 void sensor_diable(void);
 
 

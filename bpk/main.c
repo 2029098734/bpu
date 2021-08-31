@@ -20,7 +20,7 @@ int main(void)
 	//UART1->OFFSET_0.THR = 0x11;
 	for(int i = 0; i < 16; i++)
 	{
-		UART1->OFFSET_0.THR = bpk_read(i) & 0xFF;
+		bpk_read(i, UART1);
 		while(((UART1->USR) & 0x1)){}
 	}
 	//UART1->OFFSET_0.THR = 0x11;
