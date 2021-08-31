@@ -9,31 +9,14 @@ int main(void)
 	SYSCTRL->CG_CTRL1 |= 0x04000000;
 	UART_Init(UART1);
 	sensor_diable();
-	BPU->BPK_LR &= 0xFFFFFF00;	
+	BPU->SEN_STATE = 0x0;
+	BPU->BPK_LR &= 0xFFFFFF00;
+	BPU->SEN_SOFT_EN = 0x1;	
+	BPU->SEN_SOFT_ATTACK = 0x000000F0;
 	for(int i = 0; i < 16; i++)
 	{
 		bpk_write(i, 0xFF);
 	}
-	BPU->SEN_LOCK = 0x00000000;
-	BPU->SEN_STATE = 0x0; 
-	BPU->SEN_EXTS_START = (BPU->SEN_EXTS_START & 0xFFFFFF00) | 0x55;    //关闭外部所有传感器
-	BPU->SEN_EXT_TYPE = 0x000FF000;   //全部上拉电阻，设为静态传感器
-	for(int i = 0; i < 8; i++)
-	{
-		while(BPU->SEN_EXTS_START & 0x800000000){}
-		BPU->SEN_EXT_EN[i] = 0x55;
-	}
-
-	BPU->SEN_EXT_EN[2] = 0xAA;
-	BPU->SEN_EXT_EN[3] = 0xAA;
-	BPU->SEN_EXT_CFG = 0x00758000;
-	BPU->SEN_EXT_TYPE = 0x000F3004;
-
-
-	BPU->SEN_EXTS_START = (BPU->SEN_EXTS_START & 0xFFFFFF00) | 0xAA;    //开启外部所有传感器
-	BPU->SEN_STATE = 0x0; 
-
-
 	while(((UART1->USR) & 0x1)){}
 	UART1->OFFSET_0.THR = 0x11;
 
@@ -68,6 +51,29 @@ int main(void)
 				while(((UART1->USR) & 0x1)){}
 				UART1->OFFSET_0.THR = ((NVIC->ISER[0] & (1 << 17)) >> 17);
 				NVIC->ISER[0] = ((1 << 17));
+			}
+			if(UART1->OFFSET_0.RBR == 0x32)
+			{
+				BPU->SEN_SOFT_LOCK = 0x00000000;
+				BPU->SEN_SOFT_ATTACK |= 0x00000001;
+				UART1->OFFSET_0.THR = (BPU->SEN_STATE >> 24) & 0xFF;
+				while(((UART1->USR) & 0x1)){}
+				UART1->OFFSET_0.THR = (BPU->SEN_STATE >> 16) & 0xFF;
+				while(((UART1->USR) & 0x1)){}
+				UART1->OFFSET_0.THR = (BPU->SEN_STATE >> 8) & 0xFF;
+				while(((UART1->USR) & 0x1)){}
+				UART1->OFFSET_0.THR = (BPU->SEN_STATE ) & 0xFF;
+				while(((UART1->USR) & 0x1)){}
+				UART1->OFFSET_0.THR = ((NVIC->ISPR[0] & (1 << 17)) >> 17);
+				while(((UART1->USR) & 0x1)){}
+				UART1->OFFSET_0.THR = ((NVIC->IABR[0] & (1 << 17)) >> 17);
+				while(((UART1->USR) & 0x1)){}
+				UART1->OFFSET_0.THR = ((NVIC->ISER[0] & (1 << 17)) >> 17);
+				NVIC->ISER[0] = ((1 << 17));
+			}
+			if(UART1->OFFSET_0.RBR == 0x33)
+			{
+				BPU->SEN_SOFT_ATTACK = (BPU->SEN_SOFT_ATTACK  - (1 << 4));
 			}
 
 			if(UART1->OFFSET_0.RBR == 0x22)

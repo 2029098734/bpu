@@ -1,0 +1,276 @@
+
+Discarded input sections
+
+ .text          0x00000000        0x0 start.o
+ .data          0x00000000        0x0 start.o
+ .bss           0x00000000        0x0 start.o
+ .text          0x00000000        0x0 main.o
+ .data          0x00000000        0x0 main.o
+ .bss           0x00000000        0x0 main.o
+ .text          0x00000000        0x0 bpu.o
+ .data          0x00000000        0x0 bpu.o
+ .bss           0x00000000        0x0 bpu.o
+ .text.sensor_tamper_able
+                0x00000000       0x78 bpu.o
+ .text          0x00000000        0x0 irqn.o
+ .data          0x00000000        0x0 irqn.o
+ .bss           0x00000000        0x0 irqn.o
+ .text.NMI_Handler
+                0x00000000        0xe irqn.o
+ .text.HardFault_Handler
+                0x00000000        0xe irqn.o
+ .text.MemManage_Handler
+                0x00000000        0xe irqn.o
+ .text.BusFault_Handler
+                0x00000000        0xe irqn.o
+ .text.UsageFault_Handler
+                0x00000000        0xe irqn.o
+ .text.SVC_Handler
+                0x00000000        0xe irqn.o
+ .text.DebugMon_Handler
+                0x00000000        0xe irqn.o
+ .text.PendSV_Handler
+                0x00000000        0xe irqn.o
+ .text.SENSOR_IRQHandler
+                0x00000000        0xe irqn.o
+ .text.init_irqn
+                0x00000000       0x48 irqn.o
+ .text          0x00000000        0x0 uart.o
+ .data          0x00000000        0x0 uart.o
+ .bss           0x00000000        0x0 uart.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x01001000         0x00004000         xr
+RAM              0x20000000         0x00010000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x20010000                _estack = 0x20010000
+
+.text           0x01001000      0xc1c
+                0x01001000                . = ALIGN (0x4)
+                0x01001000                __text_start__ = .
+ *(*.cortex_vectors)
+ .data.cortex_vectors
+                0x01001000      0x400 start.o
+                0x01001000                cortex_vectors
+ *(*.Reset_Handler)
+ .text.Reset_Handler
+                0x01001400       0x84 start.o
+                0x01001400                Reset_Handler
+ *(.text*)
+ .text.main     0x01001484      0x2b0 main.o
+                0x01001484                main
+ .text.SENSOR_IRQHandler
+                0x01001734       0x5c main.o
+                0x01001734                SENSOR_IRQHandler
+ .text.bpk_write
+                0x01001790       0x54 bpu.o
+                0x01001790                bpk_write
+ .text.bpk_read
+                0x010017e4       0x58 bpu.o
+                0x010017e4                bpk_read
+ .text.sensor_diable
+                0x0100183c       0x84 bpu.o
+                0x0100183c                sensor_diable
+ .text.SysTick_Handler
+                0x010018c0        0xe irqn.o
+                0x010018c0                SysTick_Handler
+ .text.DMA_IRQHandler
+                0x010018ce        0xe irqn.o
+                0x010018ce                DMA_IRQHandler
+ .text.USB_IRQHandler
+                0x010018dc        0xe irqn.o
+                0x010018dc                USB_IRQHandler
+ .text.USBDMA_IRQHandler
+                0x010018ea        0xe irqn.o
+                0x010018ea                USBDMA_IRQHandler
+ .text.LCD_IRQHandler
+                0x010018f8        0xe irqn.o
+                0x010018f8                LCD_IRQHandler
+ .text.SCI0_IRQHandler
+                0x01001906        0xe irqn.o
+                0x01001906                SCI0_IRQHandler
+ .text.UART0_IRQHandler
+                0x01001914        0xe irqn.o
+                0x01001914                UART0_IRQHandler
+ .text.UART1_IRQHandler
+                0x01001922        0xe irqn.o
+                0x01001922                UART1_IRQHandler
+ .text.SPI0_IRQHandler
+                0x01001930        0xe irqn.o
+                0x01001930                SPI0_IRQHandler
+ .text.CRYPT0_IRQHandler
+                0x0100193e        0xe irqn.o
+                0x0100193e                CRYPT0_IRQHandler
+ .text.TIM_0_IRQHandler
+                0x0100194c        0xe irqn.o
+                0x0100194c                TIM_0_IRQHandler
+ .text.TIM_1_IRQHandler
+                0x0100195a        0xe irqn.o
+                0x0100195a                TIM_1_IRQHandler
+ .text.TIM_2_IRQHandler
+                0x01001968        0xe irqn.o
+                0x01001968                TIM_2_IRQHandler
+ .text.TIM_3_IRQHandler
+                0x01001976        0xe irqn.o
+                0x01001976                TIM_3_IRQHandler
+ .text.EXTI0_IRQHandler
+                0x01001984        0xe irqn.o
+                0x01001984                EXTI0_IRQHandler
+ .text.EXTI1_IRQHandler
+                0x01001992        0xe irqn.o
+                0x01001992                EXTI1_IRQHandler
+ .text.EXTI2_IRQHandler
+                0x010019a0        0xe irqn.o
+                0x010019a0                EXTI2_IRQHandler
+ .text.RTC_IRQHandler
+                0x010019ae        0xe irqn.o
+                0x010019ae                RTC_IRQHandler
+ .text.TRNG_IRQHandler
+                0x010019bc        0xe irqn.o
+                0x010019bc                TRNG_IRQHandler
+ .text.ADC0_IRQHandler
+                0x010019ca        0xe irqn.o
+                0x010019ca                ADC0_IRQHandler
+ .text.SSC_IRQHandler
+                0x010019d8        0xe irqn.o
+                0x010019d8                SSC_IRQHandler
+ .text.TIM_4_IRQHandler
+                0x010019e6        0xe irqn.o
+                0x010019e6                TIM_4_IRQHandler
+ .text.TIM_5_IRQHandler
+                0x010019f4        0xe irqn.o
+                0x010019f4                TIM_5_IRQHandler
+ .text.KBD_IRQHandler
+                0x01001a02        0xe irqn.o
+                0x01001a02                KBD_IRQHandler
+ .text.MSR_IRQHandler
+                0x01001a10        0xe irqn.o
+                0x01001a10                MSR_IRQHandler
+ .text.EXTI3_IRQHandler
+                0x01001a1e        0xe irqn.o
+                0x01001a1e                EXTI3_IRQHandler
+ .text.SPI1_IRQHandler
+                0x01001a2c        0xe irqn.o
+                0x01001a2c                SPI1_IRQHandler
+ .text.SPI2_IRQHandler
+                0x01001a3a        0xe irqn.o
+                0x01001a3a                SPI2_IRQHandler
+ .text.SCI2_IRQHandler
+                0x01001a48        0xe irqn.o
+                0x01001a48                SCI2_IRQHandler
+ .text.UART2_IRQHandler
+                0x01001a56        0xe irqn.o
+                0x01001a56                UART2_IRQHandler
+ .text.UART3_IRQHandler
+                0x01001a64        0xe irqn.o
+                0x01001a64                UART3_IRQHandler
+ .text.QSPI_IRQHandler
+                0x01001a72        0xe irqn.o
+                0x01001a72                QSPI_IRQHandler
+ .text.I2C0_IRQHandler
+                0x01001a80        0xe irqn.o
+                0x01001a80                I2C0_IRQHandler
+ .text.EXTI4_IRQHandler
+                0x01001a8e        0xe irqn.o
+                0x01001a8e                EXTI4_IRQHandler
+ .text.EXTI5_IRQHandler
+                0x01001a9c        0xe irqn.o
+                0x01001a9c                EXTI5_IRQHandler
+ .text.TIM_6_IRQHandler
+                0x01001aaa        0xe irqn.o
+                0x01001aaa                TIM_6_IRQHandler
+ .text.TIM_7_IRQHandler
+                0x01001ab8        0xe irqn.o
+                0x01001ab8                TIM_7_IRQHandler
+ .text.DCMI_IRQHandler
+                0x01001ac6        0xe irqn.o
+                0x01001ac6                DCMI_IRQHandler
+ .text.QR_IRQHandler
+                0x01001ad4        0xe irqn.o
+                0x01001ad4                QR_IRQHandler
+ .text.GPU_IRQHandler
+                0x01001ae2        0xe irqn.o
+                0x01001ae2                GPU_IRQHandler
+ .text.AWD_IRQHandler
+                0x01001af0        0xe irqn.o
+                0x01001af0                AWD_IRQHandler
+ .text.DAC_IRQHandler
+                0x01001afe        0xe irqn.o
+                0x01001afe                DAC_IRQHandler
+ .text.SPI5_IRQHandler
+                0x01001b0c        0xe irqn.o
+                0x01001b0c                SPI5_IRQHandler
+ *fill*         0x01001b1a        0x2 
+ .text.UART_Init
+                0x01001b1c      0x100 uart.o
+                0x01001b1c                UART_Init
+ *(.init)
+ *(.fini)
+ *(.rodata*)
+                0x01001c1c                __text_end__ = .
+
+.glue_7         0x01001c1c        0x0
+ .glue_7        0x01001c1c        0x0 linker stubs
+
+.glue_7t        0x01001c1c        0x0
+ .glue_7t       0x01001c1c        0x0 linker stubs
+
+.vfp11_veneer   0x01001c1c        0x0
+ .vfp11_veneer  0x01001c1c        0x0 linker stubs
+
+.v4_bx          0x01001c1c        0x0
+ .v4_bx         0x01001c1c        0x0 linker stubs
+
+.iplt           0x01001c1c        0x0
+ .iplt          0x01001c1c        0x0 start.o
+
+.rel.dyn        0x01001c1c        0x0
+ .rel.iplt      0x01001c1c        0x0 start.o
+
+.data           0x20000000        0x0 load address 0x01001c1c
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                __data_start__ = .
+ *(.data*)
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                __data_end__ = .
+
+.igot.plt       0x20000000        0x0
+ .igot.plt      0x20000000        0x0 start.o
+
+.bss            0x20000000        0x0
+                0x20000000                __bss_start__ = .
+ *(.bss*)
+                0x20000000                __bss_end__ = .
+LOAD start.o
+LOAD main.o
+LOAD bpu.o
+LOAD irqn.o
+LOAD uart.o
+OUTPUT(main.exe elf32-littlearm)
+LOAD linker stubs
+
+.comment        0x00000000       0x4d
+ .comment       0x00000000       0x4d start.o
+                                 0x4e (size before relaxing)
+ .comment       0x0000004d       0x4e main.o
+ .comment       0x0000004d       0x4e bpu.o
+ .comment       0x0000004d       0x4e irqn.o
+ .comment       0x0000004d       0x4e uart.o
+
+.ARM.attributes
+                0x00000000       0x32
+ .ARM.attributes
+                0x00000000       0x32 start.o
+ .ARM.attributes
+                0x00000032       0x32 main.o
+ .ARM.attributes
+                0x00000064       0x32 bpu.o
+ .ARM.attributes
+                0x00000096       0x32 irqn.o
+ .ARM.attributes
+                0x000000c8       0x32 uart.o
