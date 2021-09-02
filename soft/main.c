@@ -6,6 +6,8 @@
 
 int main(void)
 {
+	SCB->VTOR = 0x01001000;
+	__asm__ volatile ("dsb");
 	SYSCTRL->CG_CTRL1 |= 0x04000000;
 	UART_Init(UART1);
 	sensor_diable();
