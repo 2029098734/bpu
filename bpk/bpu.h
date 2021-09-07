@@ -13,9 +13,9 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t KEY[16];
-	__I  uint32_t BPK_RSVD0[(0x80-0x40)>>2];	
-    __IO uint32_t BPK_RDY;
+    __IO uint32_t KEY[16];                      //十六个备份寄存器,用于存储数据
+	__I  uint32_t BPK_RSVD0[(0x80-0x40)>>2];	//预留区域,无作用
+    __IO uint32_t BPK_RDY;                      
     __IO uint32_t BPK_CLR;
     __IO uint32_t BPK_LRA;
     __IO uint32_t BPK_LWA;

@@ -26,7 +26,7 @@ void bpk_read(uint32_t number, UART_TypeDef* UART)
 
 void sensor_diable(void)
 {
-
+	//关闭所有传感器
 	BPU->SEN_VH_EN = 0x55;
 	BPU->SEN_VL_EN = 0x55;
 	BPU->SEN_TH_EN = 0x55;

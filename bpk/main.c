@@ -9,7 +9,7 @@ int main(void)
 	SysTick->LOAD = (0x00FFFFFF & 0x927C00);
 	SysTick->CTRL = 0x00000004; //不使能系统定时器,不使能中断,使用内部处理器时钟源
 	UART_Init(UART1);
-	BPU->BPK_LR &= 0xFFFFFF00; 
+	BPU->BPK_LR &= 0xFFFFFF00;  //清除寄存器锁定
 	//UART1->OFFSET_0.THR = BPU->BPK_LR & 0xFF;
 	BPU->SEN_LOCK = 0x00000000;
 	//UART1->OFFSET_0.THR = BPU->SEN_LOCK & 0x1;

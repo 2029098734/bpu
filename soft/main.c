@@ -13,8 +13,8 @@ int main(void)
 	sensor_diable();
 	BPU->SEN_STATE = 0x0;
 	BPU->BPK_LR &= 0xFFFFFF00;
-	BPU->SEN_SOFT_EN = 0x1;	
-	BPU->SEN_SOFT_ATTACK = 0x000000F0;
+	BPU->SEN_SOFT_EN = 0x1;	 				//使能软件攻击
+	BPU->SEN_SOFT_ATTACK = 0x000000F0;		//配置软件攻击
 	for(int i = 0; i < 16; i++)
 	{
 		bpk_write(i, 0xFF);
@@ -22,9 +22,9 @@ int main(void)
 	while(((UART1->USR) & 0x1)){}
 	UART1->OFFSET_0.THR = 0x11;
 
-	SCB->AIRCR =  0x05FA0300 | (SCB->AIRCR & 0xF0FF);
-	NVIC->IP[17] = 0x00;
-	NVIC->ISER[0] = ((1 << 17));
+	SCB->AIRCR =  0x05FA0300 | (SCB->AIRCR & 0xF0FF);  	//中断优先级风阻
+	NVIC->IP[17] = 0x00;								//配置中断优先级
+	NVIC->ISER[0] = ((1 << 17));						//使能中断
 	
 
 	while(((UART1->USR) & 0x1)){}

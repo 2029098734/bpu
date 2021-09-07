@@ -27,7 +27,7 @@ int main(void)
 	BPU->SEN_EXT_EN[2] = 0xAA;
 	BPU->SEN_EXT_EN[3] = 0xAA;
 	BPU->SEN_EXT_CFG = 0x00758000;
-	BPU->SEN_EXT_TYPE = 0x000F3004;
+	BPU->SEN_EXT_TYPE = 0x000F3004;  //配置动态传感器,未引出管脚设为静态上拉电阻
 
 
 	BPU->SEN_EXTS_START = (BPU->SEN_EXTS_START & 0xFFFFFF00) | 0xAA;    //开启外部所有传感器

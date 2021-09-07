@@ -11,11 +11,14 @@ int main(void)
 	SYSCTRL->CG_CTRL1 |= 0x04000000;
 	SYSCTRL->SOFT_RST1 |= 0x2; 
 	UART_Init(UART0);
-	BPU->SEN_STATE = 0x0; 
-	BPU->SEN_EXTS_START = (BPU->SEN_EXTS_START & 0xFFFFFF00) | 0x55;    //关闭外部所有传感器
-	while(BPU->SEN_EXTS_START & 0x800000000){}
-	BPU->SEN_EXT_CFG = 0x00058000;
-	BPU->SEN_EXT_TYPE = 0x000FF000;   //全部上拉电阻，设为静态传感器
+	UART0->OFFSET_0.THR = BPU->SEN_STATE & 0xFF;
+	while(((UART0->USR) & 0x1)){}
+	BPU->SEN_STATE = 0x0; 				//清除传感器中断
+	BPU->SEN_EXTS_START = (BPU->SEN_EXTS_START & 0xFFFFFF00) | 0x55;    //关闭外部所有传感器,外部传感器寄存器需在外部传感器停止工作的状况下配置
+	while(BPU->SEN_EXTS_START & 0x800000000){}	//等待外部传感器关闭
+	BPU->SEN_EXT_CFG = 0x00058000;		//配置传感器参数
+	BPU->SEN_EXT_TYPE = 0x000FF000;   	//全部上拉电阻，设为静态传感器
+	//使能各个外部传感器
 	for(int i = 0; i < 6; i++)
 	{
 		while(BPU->SEN_EXTS_START & 0x800000000){}
@@ -44,7 +47,7 @@ int main(void)
 
 	SCB->AIRCR =  0x05FA0400;
 	NVIC->IP[17] = 0x20;
-	NVIC->ISER[0] = 0xFFFFFFFF;
+	NVIC->ISER[0] = 0x1 << 17;
 	
 
 
